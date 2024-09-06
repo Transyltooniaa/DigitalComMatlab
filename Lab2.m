@@ -10,9 +10,9 @@ No = 1;                      % Noise power spectral density
 BER_BPSK = zeros(1, length(SNRdb)); % Initialize BER array
 
 for blk = 1:nBlocks
-    Bits = randi([0 1], blockLength, 1);  % 1. Generate random bits of length equal to block length
+    Bits = randi([0,1],1,blockLength);  % 1. Generate random bits of length equal to block length
     Sym = 2*Bits - 1;                     % 2. Generate BPSK symbols (map bit 1 -> +1, bit 0 -> -1)
-    noise = sqrt(No/2) * randn(blockLength, 1);  % 3. Generate noise with variance No/2
+    noise = sqrt(No/2) * (randn(1,blockLength)+1j*randn(1,blockLength)); % 3. Generate noise with variance No/2
    
     for K = 1:length(SNRdb)
         TxSym = sqrt(SNR(K)) * Sym;         % 4. Transmit the symbols, adjust amplitude according to SNR
